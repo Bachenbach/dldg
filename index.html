@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Don't Look Down</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        #loading {
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #mobile-controls {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            display: none; /* Hidden by default */
+        }
+        .mobile-btn {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">Loading game...</div>
+    <div id="game-container"></div>
+    
+    <div id="mobile-controls">
+        <div class="mobile-btn" id="left-btn">←</div>
+        <div class="mobile-btn" id="jump-btn">↑</div>
+        <div class="mobile-btn" id="right-btn">→</div>
+    </div>
+    
+    <script>
+        // Show loading progress
+        window.addEventListener('load', () => {
+            const loading = document.getElementById('loading');
+            loading.textContent = 'Loading... 0%';
+            
+            window.addEventListener('progress', (e) => {
+                const percent = Math.floor(e.detail * 100);
+                loading.textContent = `Loading... ${percent}%`;
+            });
+            
+            window.addEventListener('pygbag-loaded', () => {
+                loading.style.display = 'none';
+                
+                // Show mobile controls if on mobile
+                if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    document.getElementById('mobile-controls').style.display = 'flex';
+                }
+            });
+        });
+        
+        // Mobile controls
+        document.getElementById('left-btn').addEventListener('touchstart', () => {
+            window.dispatchEvent(new KeyboardEvent('keydown', {key: 'a'}));
+        });
+        document.getElementById('left-btn').addEventListener('touchend', () => {
+            window.dispatchEvent(new KeyboardEvent('keyup', {key: 'a'}));
+        });
+        
+        document.getElementById('right-btn').addEventListener('touchstart', () => {
+            window.dispatchEvent(new KeyboardEvent('keydown', {key: 'd'}));
+        });
+        document.getElementById('right-btn').addEventListener('touchend', () => {
+            window.dispatchEvent(new KeyboardEvent('keyup', {key: 'd'}));
+        });
+        
+        document.getElementById('jump-btn').addEventListener('touchstart', () => {
+            window.dispatchEvent(new KeyboardEvent('keydown', {key: ' '}));
+        });
+    </script>
+</body>
+</html>
