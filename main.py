@@ -5,6 +5,11 @@ import json
 import math
 import asyncio
 from pygame import gfxdraw
+try:
+    import js
+    js.window.loadingManager.complete()
+except:
+    pass
 
 # Constants
 SCREEN_WIDTH = 1000
