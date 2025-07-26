@@ -19,10 +19,16 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pygbag
+        pip install pygame==2.5.2 pygbag==0.1.0
         
     - name: Build web version
-      run: pygbag --build --template index.html --app_name "DontLookDown" --cdn http://localhost:8000/ .
+      run: |
+        pygbag --build \
+               --template index.html \
+               --app_name DontLookDown \
+               --cdn https://pygame-web.github.io/archives/0.1/ \
+               --cache no-cache \
+               .
       
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
